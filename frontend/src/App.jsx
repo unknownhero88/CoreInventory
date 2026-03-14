@@ -1,121 +1,166 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
+import AppLayout from "./layout/AppLayout";
+
+import LoginPage from "./pages/auth/LoginPage";
+import DashboardPage from "./pages/dashboard/DashboardPage";
+import ProductsPage from "./pages/products/ProductsPage";
+import LandingPage from "./pages/LandingPage";
+import ReceiptsPage from "./pages/operations/ReceiptsPage";
+import DeliveriesPage from "./pages/operations/DeliveriesPage";
+import TransfersPage from "./pages/operations/TransfersPage";
+import AdjustmentsPage from "./pages/operations/AdjustmentsPage";
+import RegisterPage from "./pages/auth/RegisterPage";
+import MoveHistoryPage from "./pages/history/MoveHistoryPage";
+
+import StockPage from "./pages/stock/StockPage";
+
+import WarehousesPage from "./pages/warehouse/WarehousesPage";
+import LocationsPage from "./pages/warehouse/LocationsPage";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const token = localStorage.getItem("token");
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
 
-      <div className="ticks"></div>
+        {/* Login route */}
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route
+          path="/dashboard"
+          element={
+            token ? (
+              <AppLayout>
+                <DashboardPage />
+              </AppLayout>
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+        <Route
+          path="/products"
+          element={
+            token ? (
+              <AppLayout>
+                <ProductsPage />
+              </AppLayout>
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+        <Route
+          path="/receipts"
+          element={
+            token ? (
+              <AppLayout>
+                <ReceiptsPage />
+              </AppLayout>
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+
+        <Route
+          path="/deliveries"
+          element={
+            token ? (
+              <AppLayout>
+                <DeliveriesPage />
+              </AppLayout>
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+
+        <Route
+          path="/transfers"
+          element={
+            token ? (
+              <AppLayout>
+                <TransfersPage />
+              </AppLayout>
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+
+        <Route
+          path="/adjustments"
+          element={
+            token ? (
+              <AppLayout>
+                <AdjustmentsPage />
+              </AppLayout>
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+
+        <Route
+          path="/history"
+          element={
+            token ? (
+              <AppLayout>
+                <MoveHistoryPage />
+              </AppLayout>
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+
+        <Route
+          path="/stock"
+          element={
+            token ? (
+              <AppLayout>
+                <StockPage />
+              </AppLayout>
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+
+        <Route
+          path="/warehouses"
+          element={
+            token ? (
+              <AppLayout>
+                <WarehousesPage />
+              </AppLayout>
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+
+        <Route
+          path="/locations"
+          element={
+            token ? (
+              <AppLayout>
+                <LocationsPage />
+              </AppLayout>
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;

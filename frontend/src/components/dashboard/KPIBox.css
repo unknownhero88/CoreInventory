@@ -1,0 +1,23 @@
+.kpi-box {
+  background: #1e1e1e;
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 200px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease;
+}
+
+.kpi-box:hover {
+  transform: translateY(-3px);
+}
+
+.kpi-title {
+  font-size: 14px;
+  color: #aaa;
+}
+
+.kpi-value {
+  font-size: 28px;
+  margin-top: 5px;
+}
