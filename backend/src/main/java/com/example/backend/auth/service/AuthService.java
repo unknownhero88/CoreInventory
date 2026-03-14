@@ -9,11 +9,17 @@ import com.example.backend.auth.dto.RegisterRequest;
 import com.example.backend.config.JwtService;
 import com.example.backend.user.entity.User;
 import com.example.backend.user.repository.UserRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.http.HttpStatus;
 
 @Service
 public class AuthService {
@@ -59,16 +65,42 @@ public class AuthService {
         return new AuthResponse(token, user.getId(), user.getName(), user.getEmail(), user.getRole().name());
     }
 
+
+
     public AuthResponse login(LoginRequest request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
-        );
+
+        try {
+
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.getEmail(),
+                            request.getPassword()
+                    )
+            );
+
+        } catch (BadCredentialsException e) {
+
+            throw new ResponseStatusException(
+                    HttpStatus.UNAUTHORIZED,
+                    "Invalid email or password"
+            );
+        }
 
         User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new IllegalArgumentException("User not found."));
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "User not found"
+                ));
 
         String token = jwtService.generateToken(user);
-        return new AuthResponse(token, user.getId(), user.getName(), user.getEmail(), user.getRole().name());
+
+        return new AuthResponse(
+                token,
+                user.getId(),
+                user.getName(),
+                user.getEmail(),
+                user.getRole().name()
+        );
     }
 
     public void requestOtp(String email) {

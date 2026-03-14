@@ -6,7 +6,7 @@ export default function RegisterPage() {
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
-    fullName: "",
+    name: "",
     email: "",
     password: "",
   });
@@ -64,8 +64,8 @@ export default function RegisterPage() {
 
           <input
             type="text"
-            name="fullName"
-            value={form.fullName}
+            name="name"
+            value={form.name}
             onChange={handleChange}
             required
             style={{
